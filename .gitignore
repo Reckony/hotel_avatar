@@ -388,3 +388,4 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+/Api/Api/secrets.json
