@@ -17,15 +17,13 @@ namespace Api.Controllers
         {
             _repository = new ReservationsRepository(context);
         }
-
-        // GET: api/Reservations
+        
         [HttpGet]
         public IEnumerable<Reservations> GetReservations()
         {
             return _repository.GetReservations();
         }
-
-        // GET: api/Reservations/5
+        
         [HttpGet("{id}")]
         public Reservations GetReservations([FromRoute] int id)
         {
@@ -35,15 +33,13 @@ namespace Api.Controllers
             }
             return _repository.GetReservations(id);
         }
-
-        // GET: api/Reservations/last - gets count of reservations from last minute
+        
         [HttpGet("last")]
         public int GetLastReservations()
         {
             return _repository.GetLastReservations();
         }
-
-        // POST: api/Reservations
+        
         [HttpPost]
         public async Task<IActionResult> PostReservations([FromBody] Reservations reservations)
         {
@@ -54,8 +50,7 @@ namespace Api.Controllers
             await _repository.PostReservations(reservations);
             return CreatedAtAction("GetReservations", new { id = reservations.ID }, reservations);
         }
-
-        // PUT: api/Reservations/5
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReservations([FromRoute] int id, [FromBody] Reservations reservations)
         {
@@ -73,8 +68,7 @@ namespace Api.Controllers
 
            return Ok();
         }
-
-        // DELETE: api/Reservations/5
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservations([FromRoute] int id)
         {
