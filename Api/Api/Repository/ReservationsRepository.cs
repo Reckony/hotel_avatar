@@ -1,6 +1,7 @@
 ﻿using Api.Data;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +31,21 @@ namespace Api.Repository
             }
             return reservations;
         }
-        
+
+        public int GetLastReservations()
+        {
+            IEnumerable<Reservations> reservations = _context.Reservations
+                .Where(r => r.LogDate > DateTime.Now.AddMinutes(-1));
+
+            return reservations.Count();
+        }
+
+        public async Task PostReservations(Reservations reservations)
+        {
+            _context.Reservations.Add(reservations);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task PutReservations(int id, Reservations reservations)
         {
             _context.Entry(reservations).State = EntityState.Modified;
@@ -43,12 +58,6 @@ namespace Api.Repository
             {
                 throw;
             }
-        }
-        
-        public async Task PostReservations(Reservations reservations)
-        {
-            _context.Reservations.Add(reservations);
-            await _context.SaveChangesAsync();
         }
         
         public async Task<Reservations> DeleteReservations(int id)

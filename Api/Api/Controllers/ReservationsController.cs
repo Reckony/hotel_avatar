@@ -17,15 +17,13 @@ namespace Api.Controllers
         {
             _repository = new ReservationsRepository(context);
         }
-
-        // GET: api/Reservations
+        
         [HttpGet]
         public IEnumerable<Reservations> GetReservations()
         {
             return _repository.GetReservations();
         }
-
-        // GET: api/Reservations/5
+        
         [HttpGet("{id}")]
         public Reservations GetReservations([FromRoute] int id)
         {
@@ -35,8 +33,24 @@ namespace Api.Controllers
             }
             return _repository.GetReservations(id);
         }
-
-        // PUT: api/Reservations/5
+        
+        [HttpGet("last")]
+        public int GetLastReservations()
+        {
+            return _repository.GetLastReservations();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> PostReservations([FromBody] Reservations reservations)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await _repository.PostReservations(reservations);
+            return CreatedAtAction("GetReservations", new { id = reservations.ID }, reservations);
+        }
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReservations([FromRoute] int id, [FromBody] Reservations reservations)
         {
@@ -54,20 +68,7 @@ namespace Api.Controllers
 
            return Ok();
         }
-
-        // POST: api/Reservations
-        [HttpPost]
-        public async Task<IActionResult> PostReservations([FromBody] Reservations reservations)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            await _repository.PostReservations(reservations);
-            return CreatedAtAction("GetReservations", new { id = reservations.ID }, reservations);
-        }
-
-        // DELETE: api/Reservations/5
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservations([FromRoute] int id)
         {
