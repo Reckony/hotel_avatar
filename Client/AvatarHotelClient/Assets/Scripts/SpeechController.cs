@@ -42,4 +42,18 @@ public class SpeechController : MonoBehaviour
         speechBubble.SetActive(true);
         textObject.SetActive(true);
     }
+
+    public void disableTextAndBubble()
+    {
+        speechBubble.SetActive(false);
+        textObject.SetActive(false);
+    }
+
+    public void offerHelp()
+    {
+        textMesh.text = "What can I do for you?";
+        textMesh.fontSize = 36;
+        speechBubble.SetActive(true);
+        textObject.SetActive(true);
+    }
 }
