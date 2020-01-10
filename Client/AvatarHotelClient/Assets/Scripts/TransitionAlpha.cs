@@ -15,10 +15,36 @@ public class TransitionAlpha : MonoBehaviour
         Invoke("startEnumeratorVisible", waitForMakingVisible);
     }
 
+    private void startEnumeratorVisible()
+    {
+        StartCoroutine(startCoroutineVisible());
+    }
+
+    private IEnumerator startCoroutineVisible()
+    {
+        yield return StartCoroutine(FadeToInTime(1, transitionTime));
+        FadeToInstant(1, transitionTime);
+    }
+
     public void makeInvisible()
     {
         Invoke("startEnumeratorInvisible", waitForMakingInvisible);
     }
+
+    private void startEnumeratorInvisible()
+    {
+        StartCoroutine(startCoroutineInvisible());
+    }
+
+    private IEnumerator startCoroutineInvisible()
+    {
+        yield return StartCoroutine(FadeToInTime(0, transitionTime));
+        FadeToInstant(0, transitionTime);
+        if(makeInActive)
+            this.gameObject.SetActive(false);
+    }
+
+    
 
     IEnumerator FadeToInTime(float endValue, float transitionTime)
     {
